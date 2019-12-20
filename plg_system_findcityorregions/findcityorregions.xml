@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.8" group="system" method="upgrade">
+	<name>PLG_MULTISITESWITCH</name>
+	<creationDate>05.12.2019</creationDate>
+	<author>tsymb</author>
+	<authorEmail>your@email.com</authorEmail>
+	<authorUrl>http://your.url.com</authorUrl>
+	<copyright>A copyright</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.0</version>
+	<description>PLG_MULTISITESWITCH_XML_DESCRIPTION</description>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_multisiteswitch.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_multisiteswitch.sys.ini</language>
+	</languages>
+
+	<files>
+		<filename plugin="findcityorregions">findcityorregions.php</filename>
+		<folder>language</folder>
+	</files>
+
+</extension>

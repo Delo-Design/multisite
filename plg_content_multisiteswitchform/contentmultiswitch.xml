@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <fields name="params">
+        <fieldset name="multiswitch" >
+            <field
+                    name="files"
+                    type="subform"
+                    label="Файлы"
+                    multiple="true"
+            >
+                <form>
+                    <field
+                            name="url"
+                            type="text"
+                            label="Адрес"
+                    />
+                    <field
+                            name="type"
+                            type="list"
+                            default="0"
+                            label="Тип"
+                    >
+                        <option value="file">Файл</option>
+                        <option value="text">Текст</option>
+                    </field>
+                    <field
+                            name="headercontenttype"
+                            type="text"
+                            default=""
+                            label="Заголовок для отдачи"
+                            showon="type:text"
+                    />
+                    <field
+                            name="text"
+                            type="textarea"
+                            default=""
+                            label="Текст"
+                            rows="8"
+                            showon="type:text"
+                    />
+                    <field
+                            name="file"
+                            type="text"
+                            default=""
+                            label="Файл"
+                            showon="type:file"
+                    />
+                </form>
+            </field>
+            <field
+                    name="metas"
+                    type="subform"
+                    label="Метатеги"
+                    multiple="true"
+                    layout="joomla.form.field.subform.repeatable-table"
+            >
+                <form>
+                    <field
+                        name="name"
+                        type="text"
+                        label="Название"
+                    />
+                    <field
+                        name="content"
+                        type="text"
+                        default=""
+                        label="Значение"
+                    />
+                </form>
+            </field>
+
+        </fieldset>
+    </fields>
+</form>

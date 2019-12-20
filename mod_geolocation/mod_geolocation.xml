@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.8" client="site" method="upgrade">
+	<name>MOD_TESTMODULE</name>
+	<creationDate>14.12.2019</creationDate>
+	<author>tsymb</author>
+	<authorEmail>your@email.com</authorEmail>
+	<authorUrl>http://your.url.com</authorUrl>
+	<copyright>A copyright</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.0</version>
+	<description>MOD_TESTMODULE_XML_DESCRIPTION</description>
+
+	<files>
+		<filename module="mod_geolocation">mod_geolocation.php</filename>
+		<filename module="mod_geolocation">helper.php</filename>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+		<filename>mod_geolocation.xml</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset
+					name="advanced">
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

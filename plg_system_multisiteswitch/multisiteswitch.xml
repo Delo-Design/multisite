@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.8" group="system" method="upgrade">
+	<name>PLG_MULTISITESWITCH</name>
+	<creationDate>05.12.2019</creationDate>
+	<author>tsymb</author>
+	<authorEmail>your@email.com</authorEmail>
+	<authorUrl>http://your.url.com</authorUrl>
+	<copyright>A copyright</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.0</version>
+	<description>PLG_MULTISITESWITCH_XML_DESCRIPTION</description>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_multisiteswitch.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_multisiteswitch.sys.ini</language>
+	</languages>
+
+	<files>
+		<filename plugin="multisiteswitch">multisiteswitch.php</filename>
+		<folder>language</folder>
+	</files>
+
+	<config>
+		<fields name="params" addfieldpath="/libraries/ipgeobase/fields">
+			<fieldset name="basic">
+
+
+				<field
+						name="subdomains"
+						type="subform"
+						label="Список субдоменов"
+						multiple="true">
+					<form>
+						<field
+							name="subdomain"
+							type="text"
+							label="Субдомен"
+						/>
+						<field
+							name="default"
+							type="radio"
+							default="0"
+							label="Главный"
+							class="btn-group"
+						>
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
+						<field
+							name="menu"
+							type="menu"
+							default="mainmenu"
+							label="Меню"
+						/>
+						<field
+							name="menuitem"
+							type="menuitem"
+							label="Главный пункт меню"
+						/>
+						<field
+								name="cityorregions"
+								type="radio"
+								default="0"
+								label="Включить привязку доменов к регионам и городам"
+								class="btn-group"
+						>
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
+						<field
+							name="city"
+							type="listcities"
+							multiple="false"
+							published="1"
+							class="inputbox"
+							label="Город"
+							showon="cityorregions:1"
+						/>
+						<field
+							name="region"
+							type="listregions"
+							multiple="false"
+							published="1"
+							class="inputbox"
+							label="Регион"
+							showon="cityorregions:1"
+						/>
+
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
