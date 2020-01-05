@@ -19,7 +19,7 @@ class ModGeolocationHelper
 			$findCity = $current['city'] === $value['city'];
 			if($findRegion || $findCity)
 			{
-				$findSubDomain = $subdomain;
+				$findSubDomain = $value['object'];
 			}
 		}
 
@@ -32,7 +32,38 @@ class ModGeolocationHelper
 	}
 
 
-	private static function getRouteRegionsAndCityFromParams()
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since version
+	 */
+	public static function getActive()
+	{
+		JLoader::register('plgSystemMultisiteswitch', JPATH_ROOT . '/plugins/system/multisiteswitch/multisiteswitch.php');
+		return plgSystemMultisiteswitch::$activeItem;
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 *
+	 * @since version
+	 */
+	public static function getAllSubdomains()
+	{
+		JLoader::register('plgSystemMultisiteswitch', JPATH_ROOT . '/plugins/system/multisiteswitch/multisiteswitch.php');
+		return plgSystemMultisiteswitch::$listSubdomains;
+	}
+
+
+	/**
+	 *
+	 * @return array
+	 *
+	 * @since version
+	 */
+	public static function getRouteRegionsAndCityFromParams()
 	{
 		$output = [];
 		$db = Factory::getDbo();
@@ -46,7 +77,10 @@ class ModGeolocationHelper
 
 		foreach ($subDomains as $subDomain)
 		{
-			$output[$subDomain->subdomain] = [];
+			$output[$subDomain->subdomain] = [
+				'object' => $subDomain
+			];
+
 			if(!empty($subDomain->region))
 			{
 				$output[$subDomain->subdomain]['region'] = JIpgeobase::getRegionFromId((int)$subDomain->region);

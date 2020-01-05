@@ -24,13 +24,17 @@
 		<fields name="params" addfieldpath="/libraries/ipgeobase/fields">
 			<fieldset name="basic">
 
-
 				<field
 						name="subdomains"
 						type="subform"
 						label="Список субдоменов"
 						multiple="true">
 					<form>
+						<field
+							name="name"
+							type="text"
+							label="Название"
+						/>
 						<field
 							name="subdomain"
 							type="text"

@@ -66,7 +66,7 @@ class plgContentMultisiteswitchform extends CMSPlugin
 		if ($app->isClient('administrator') && $component === 'com_menus' && $layout === 'edit')
 		{
 			Form::addFormPath(__DIR__);
-			$form->loadFile('contentmultiswitch', false);
+			$form->loadFile('contentmultiswitch', true);
 		}
 
 		return true;

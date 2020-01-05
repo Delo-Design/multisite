@@ -59,7 +59,20 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	 * @var   string
 	 * @since version
 	 */
+	public static $activeItem;
+
+	/**
+	 * @var
+	 * @since version
+	 */
+	public static $listSubdomains;
+
+	/**
+	 * @var   string
+	 * @since version
+	 */
 	public static $subDomain;
+
 
 	/**
 	 * @var
@@ -89,6 +102,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		$domainSplit = explode('.', $domain);
 		$subDomains = $this->params->get('subdomains', []);
 		$defaultSubDomain = false;
+		self::$listSubdomains = $subDomains;
 
 		if(!empty($redirectDomain))
 		{
@@ -133,8 +147,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 		else
 		{
-			$_SERVER['REQUEST_URI'] = '/' . self::$subDomain . str_replace('index.php', '', $_SERVER['REQUEST_URI']);
 			self::$sourceURI = $_SERVER['REQUEST_URI'];
+			$_SERVER['REQUEST_URI'] = '/' . self::$subDomain . str_replace('index.php', '', $_SERVER['REQUEST_URI']);
 		}
 
 		foreach ($subDomains as $subDomain)
@@ -145,6 +159,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			if($signSub || $signEmpty)
 			{
 				self::$defaultMenuItem = $subDomain->menuitem;
+				self::$activeItem = $subDomain;
 				break;
 			}
 		}
@@ -155,8 +170,6 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 	public function onAfterRoute()
 	{
-		//$_SERVER['REQUEST_URI'] = self::$sourceURI;
-
 		$admin = $this->app->isClient('administrator');
 
 		if($admin)
@@ -194,6 +207,10 @@ class plgSystemMultisiteswitch extends CMSPlugin
 				}
 			}, $body);
 		}
+
+		$body = preg_replace_callback('#(http\:\/\/)?\/(uk0.ru)#i', function ($matches) {
+			return '//' . self::$subDomain . '.' . $matches[2];
+		}, $body);
 
 		$this->app->setBody($body);
 	}
