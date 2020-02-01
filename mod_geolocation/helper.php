@@ -23,7 +23,7 @@ class ModGeolocationHelper
 			}
 		}
 
-		if($findSubDomain !== plgSystemMultisiteswitch::$subDomain)
+		if($findSubDomain->subdomain !== plgSystemMultisiteswitch::$subDomain)
 		{
 			return $findSubDomain;
 		}

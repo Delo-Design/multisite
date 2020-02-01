@@ -38,8 +38,9 @@ class plgSystemModuleLabel extends CMSPlugin
 	function onContentPrepareForm($form, $data)
 	{
 		$app = Factory::getApplication();
+		$check = ($app->input->get('option', '') == 'com_modules' && $form->getName() == 'com_modules.module');
 
-		if ($app->isAdmin() && $app->input->get('option', '') == 'com_modules' && $form->getName() == 'com_modules.module')
+		if ($app->isAdmin() && $check)
 		{
 			// Prepare title
 			if (is_object($data) && !empty($data->title))

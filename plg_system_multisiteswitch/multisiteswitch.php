@@ -187,33 +187,65 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	public function onAfterRender()
 	{
 		$admin = $this->app->isClient('administrator');
+		$customizer = !empty($this->app->input->get('customizer'));
 
-		if($admin)
+		if($admin || $customizer)
 		{
 			return false;
 		}
 
-		//TODO переписать на регулярное выражение
+		$domain = 'uk0.ru';
+
 		$body = $this->app->getBody();
 		$subDomains = $this->params->get('subdomains', []);
+
 		foreach ($subDomains as $subDomain)
 		{
-			$body = preg_replace_callback('#(http\:\/\/.*?)?(\/' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) {
-				//проверяем не домен ли режем, нам надо резать только куда запрос идет
-				if($matches[3] !== '.')
-				{
-					//добавленный срезанный символ
-					return '/' . $matches[3];
+
+			$body = preg_replace_callback('#(\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-]+?\/)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain) {
+				$sep = substr_count($matches[4], '/') ? '/' : '';
+
+				if($matches[1] === '[s]') {
+					return str_replace('[s]', '', $matches[0]);
 				}
+
+				$dic = [];
+
+				$check = empty($matches[3]) || strpos($matches[3], $domain) !== false;
+
+				if($check)
+				{
+					if((int)$subDomain->default)
+					{
+						$dic = ['.', '/', '"', '?'];
+					}
+					else
+					{
+						$dic = ['/', '"', '?'];
+					}
+
+					if(in_array($matches[5], $dic) || $sep === '/')
+					{
+						$matches[4] = '';
+
+						if($sep !== '/')
+						{
+							//$matches[5] = '';
+						}
+
+					}
+				}
+
+
+				$link = str_replace('//', '/', $matches[3] . $matches[4] . $matches[5]);
+				return $matches[2] . $link;
+
 			}, $body);
 		}
 
-		$body = preg_replace_callback('#(http\:\/\/)?\/(uk0.ru)#i', function ($matches) {
-			return '//' . self::$subDomain . '.' . $matches[2];
-		}, $body);
-
 		$this->app->setBody($body);
 	}
+
 
 	private function loadFilesFromMenu()
 	{
