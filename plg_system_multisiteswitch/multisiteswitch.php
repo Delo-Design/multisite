@@ -106,6 +106,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		if(!empty($redirectDomain))
 		{
+			$redirectDomain = str_replace(';', '', $redirectDomain);
 			$app->redirect('http://' . $redirectDomain . '.uk0.ru', 301);
 		}
 
@@ -202,10 +203,16 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		foreach ($subDomains as $subDomain)
 		{
 
-			$body = preg_replace_callback('#(\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-]+?\/)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain) {
+			$body = preg_replace_callback('#(\/?\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-\?\=]+?\/)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain)
+			{
+
 				$sep = substr_count($matches[4], '/') ? '/' : '';
 
-				if($matches[1] === '[s]') {
+
+				$matches[1] = str_replace('/', '', $matches[1]);
+
+				if($matches[1] === '[s]')
+				{
 					return str_replace('[s]', '', $matches[0]);
 				}
 
@@ -227,12 +234,6 @@ class plgSystemMultisiteswitch extends CMSPlugin
 					if(in_array($matches[5], $dic) || $sep === '/')
 					{
 						$matches[4] = '';
-
-						if($sep !== '/')
-						{
-							//$matches[5] = '';
-						}
-
 					}
 				}
 
@@ -285,6 +286,5 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 
 	}
-
 
 }
