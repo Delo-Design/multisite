@@ -97,6 +97,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
+		$config = Factory::getConfig();
+		$https = $config->get('') ? 'https://' : 'http://';
 		$redirectDomain = $app->input->get('redirectDomain', '');
 		$domain = $_SERVER['SERVER_NAME'];
 		$domainSplit = explode('.', $domain);
@@ -107,7 +109,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		if(!empty($redirectDomain))
 		{
 			$redirectDomain = str_replace(';', '', $redirectDomain);
-			$app->redirect('http://' . $redirectDomain . '.uk0.ru', 301);
+			$app->redirect($https . $redirectDomain . $_SERVER['SERVER_NAME'], 301);
 		}
 
 		//ищем дефолтный субдомен
@@ -126,7 +128,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			{
 				if($defaultSubDomain->subdomain === $subDomainFromUrl)
 				{
-					$app->redirect('http://' . implode('.', $domainSplit), 301);
+					$app->redirect($https . implode('.', $domainSplit), 301);
 				}
 			}
 
@@ -197,7 +199,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
-		$domain = 'uk0.ru';
+		$domain = $_SERVER['SERVER_NAME'];
 
 		$body = $this->app->getBody();
 		$subDomains = $this->params->get('subdomains', []);
