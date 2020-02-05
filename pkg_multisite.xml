@@ -2,12 +2,12 @@
 <extension version="3.9" type="package" method="upgrade">
 	<name>PKG_MULTISITE</name>
 	<packagename>multisite</packagename>
+	<creationDate>08.12.2019</creationDate>
 	<author>Cymbal</author>
-	<creationDate>05.12.2019</creationDate>
-	<copyright>Copyright (c) 2018 - 2019 Septdir Workshop. All rights reserved.</copyright>
-	<license>https://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>cymbal@delo-design.ru</authorEmail>
-	<authorUrl>https:/delo-design.ru</authorUrl>
+	<authorUrl>https://delo-design.ru</authorUrl>
+	<copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0</version>
 	<description>PKG_MULTISITE_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>

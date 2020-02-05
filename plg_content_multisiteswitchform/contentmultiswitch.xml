@@ -21,36 +21,36 @@
             <field
                     name="files"
                     type="subform"
-                    label="Файлы"
+                    label="PLG_MULTISITESWITCHFORM_FORM_FILES"
                     multiple="true"
             >
                 <form>
                     <field
                             name="url"
                             type="text"
-                            label="Адрес"
+                            label="PLG_MULTISITESWITCHFORM_FORM_FILES_URL"
                     />
                     <field
                             name="type"
                             type="list"
                             default="0"
-                            label="Тип"
+                            label="PLG_MULTISITESWITCHFORM_FORM_FILES_TYPE"
                     >
-                        <option value="file">Файл</option>
-                        <option value="text">Текст</option>
+                        <option value="file">PLG_MULTISITESWITCHFORM_FORM_FILES_TYPE_FILE</option>
+                        <option value="text">PLG_MULTISITESWITCHFORM_FORM_FILES_TYPE_TEXT</option>
                     </field>
                     <field
                             name="headercontenttype"
                             type="text"
                             default=""
-                            label="Заголовок для отдачи"
+                            label="PLG_MULTISITESWITCHFORM_FORM_FILES_HEADERCONTENTTYPE"
                             showon="type:text"
                     />
                     <field
                             name="text"
                             type="textarea"
                             default=""
-                            label="Текст"
+                            label="PLG_MULTISITESWITCHFORM_FORM_FILES_TEXT"
                             rows="8"
                             showon="type:text"
                     />
@@ -58,7 +58,7 @@
                             name="file"
                             type="text"
                             default=""
-                            label="Файл"
+                            label="PLG_MULTISITESWITCHFORM_FORM_FILES_FILE"
                             showon="type:file"
                     />
                 </form>
@@ -74,13 +74,13 @@
                     <field
                         name="name"
                         type="text"
-                        label="Название"
+                        label="PLG_MULTISITESWITCHFORM_METAS_NAME"
                     />
                     <field
                         name="content"
                         type="text"
                         default=""
-                        label="Значение"
+                        label="PLG_MULTISITESWITCHFORM_METAS_CONTENT"
                     />
                 </form>
             </field>

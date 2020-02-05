@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.8" client="site" method="upgrade">
-	<name>MOD_TESTMODULE</name>
-	<creationDate>14.12.2019</creationDate>
-	<author>tsymb</author>
-	<authorEmail>your@email.com</authorEmail>
-	<authorUrl>http://your.url.com</authorUrl>
-	<copyright>A copyright</copyright>
+	<name>MOD_GEOLOCATION</name>
+	<creationDate>08.12.2019</creationDate>
+	<author>Cymbal</author>
+	<authorEmail>cymbal@delo-design.ru</authorEmail>
+	<authorUrl>https://delo-design.ru</authorUrl>
+	<copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0</version>
-	<description>MOD_TESTMODULE_XML_DESCRIPTION</description>
+	<description>MOD_GEOLOCATION_XML_DESCRIPTION</description>
 
 	<files>
 		<filename module="mod_geolocation">mod_geolocation.php</filename>

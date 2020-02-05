@@ -169,6 +169,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 	}
 
+
 	public function onAfterRoute()
 	{
 		$admin = $this->app->isClient('administrator');
@@ -184,6 +185,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		$theme->set('menu.positions.navbar', self::$subDomain);
 		$theme->set('menu.positions.mobile', self::$subDomain);
 	}
+
 
 	public function onAfterRender()
 	{

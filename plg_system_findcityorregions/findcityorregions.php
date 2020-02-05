@@ -58,26 +58,6 @@ class plgSystemFindcityorregions extends CMSPlugin
 			$this->$action();
 		}
 
-		/*if($action === 'getCitiesSearch')
-		{
-			$this->getCitiesSearch();
-		}
-
-		if($action === 'getCitiesByIds')
-		{
-			$this->getCitiesByIds();
-		}
-
-		if($action === 'getRegionsSearch')
-		{
-			$this->getRegionsSearch();
-		}
-
-		if($action === 'getRegionsByIds')
-		{
-			$this->getRegionsByIds();
-		}*/
-
 	}
 
 	private function getCitiesSearch()

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" version="3.8" group="content" method="upgrade">
-	<name>PLG_MULTISITESWITCH</name>
-	<creationDate>05.12.2019</creationDate>
-	<author>tsymb</author>
-	<authorEmail>your@email.com</authorEmail>
-	<authorUrl>http://your.url.com</authorUrl>
-	<copyright>A copyright</copyright>
+	<name>PLG_MULTISITESWITCHFORM</name>
+	<creationDate>08.12.2019</creationDate>
+	<author>Cymbal</author>
+	<authorEmail>cymbal@delo-design.ru</authorEmail>
+	<authorUrl>https://delo-design.ru</authorUrl>
+	<copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0</version>
-	<description>PLG_MULTISITESWITCH_XML_DESCRIPTION</description>
+	<description>PLG_MULTISITESWITCHFORM_XML_DESCRIPTION</description>
 
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_multisiteswitch.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_multisiteswitch.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_multisiteswitchform.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_multisiteswitchform.sys.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_content_multisiteswitchform.ini</language>
+		<language tag="ru-RU">ru-RU/ru-RU.plg_content_multisiteswitchform.sys.ini</language>
 	</languages>
 
 	<files>
