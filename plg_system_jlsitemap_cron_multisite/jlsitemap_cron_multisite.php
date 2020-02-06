@@ -228,9 +228,39 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 	protected function buildMap($map)
 	{
+		JLoader::register('plgSystemMultisiteswitchHelper', JPATH_PLUGINS . '/system/multisiteswitch/helper.php');
+
+		$config = Factory::getConfig();
+		$https = $config->get('') ? 'https://' : 'http://';
+		$subdomainDefault = plgSystemMultisiteswitchHelper::getSubdomainDefault();
 		$output = [];
-		$build = function ($splitMap) use (&$output, &$build) {
-			$output[] = $splitMap['s'];
+		$build = static function ($splitMap) use (&$output, &$build, $https, $subdomainDefault) {
+			$item = $splitMap['s'];
+			$link = '';
+			$subdomain = '';
+			$linkSource = explode('/', $item->get('link', ''));
+
+			if(isset($linkSource[1]))
+			{
+				$subdomain = $linkSource[1];
+				unset($linkSource[1]);
+			}
+
+			if($subdomainDefault->subdomain === $subdomain)
+			{
+				$subdomain = '';
+			}
+			else
+			{
+				$subdomain .= '.';
+			}
+
+			$link = implode('/', $linkSource);
+			$loc = $https . $subdomain . $_SERVER['SERVER_NAME'] . $link;
+			$item->set('link', $link);
+			$item->set('loc', $loc);
+
+			$output[] = $item;
 
 			if(isset($splitMap['i']))
 			{

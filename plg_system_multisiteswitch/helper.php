@@ -20,6 +20,25 @@ class plgSystemMultisiteswitchHelper
 	 *
 	 * @since version
 	 */
+	public static function getSubdomainDefault()
+	{
+		$sudomains = self::getSubdomains();
+		foreach ($sudomains as $sudomain)
+		{
+			if((int)$sudomain->default)
+			{
+				return $sudomain;
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 * @return mixed
+	 *
+	 * @since version
+	 */
 	public static function getSubdomains()
 	{
 		$output = [];
