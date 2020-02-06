@@ -196,9 +196,6 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 			}
 		}
 
-		//var_dump($maps);
-		//die();
-
 		$sitemapSource = JPATH_ROOT . DIRECTORY_SEPARATOR . 'sitemap.xml';
 		if(file_exists($sitemapSource))
 		{
