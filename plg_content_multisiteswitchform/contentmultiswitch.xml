@@ -44,7 +44,6 @@
                             type="text"
                             default=""
                             label="PLG_MULTISITESWITCHFORM_FORM_FILES_HEADERCONTENTTYPE"
-                            showon="type:text"
                     />
                     <field
                             name="text"

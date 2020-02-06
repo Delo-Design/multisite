@@ -9,7 +9,9 @@
  */
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
@@ -267,16 +269,43 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		foreach ($files as $file)
 		{
-			if($url === ('/' . $file->url))
+
+			if($file->type === 'text')
 			{
-				if(!empty($file->headercontenttype))
+				if($url === ('/' . $file->url))
 				{
-					header("Content-Type: " . $file->headercontenttype);
+					if(!empty($file->headercontenttype))
+					{
+						header("Content-Type: " . $file->headercontenttype);
+					}
+
+					echo $file->text;
+					$this->app->close();
+				}
+			}
+
+			if($file->type === 'file')
+			{
+
+				$path = str_replace(DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, JPATH_ROOT . $file->file);
+
+				if(file_exists($path))
+				{
+					if(!empty($file->headercontenttype))
+					{
+						header("Content-Type: " . $file->headercontenttype);
+					}
+					echo file_get_contents($path);
+				}
+				else
+				{
+					$exception = new Exception(Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'), 404);
+					ExceptionHandler::render($exception);
 				}
 
-				echo $file->text;
 				$this->app->close();
 			}
+
 		}
 
 		if(method_exists($document, 'addCustomTag'))
