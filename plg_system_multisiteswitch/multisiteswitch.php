@@ -267,6 +267,15 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		$files = $params->get('files', []);
 		$metas = $params->get('metas', []);
 
+		$sitemapDefault = new stdClass();
+		$sitemapDefault->type = 'file';
+		$sitemapDefault->url = 'sitemap.xml';
+		$sitemapDefault->headercontenttype = 'text/xml';
+		$sitemapDefault->file = '/sitemaps/' . self::$subDomain . '.xml';
+
+		$files = (array)$files;
+		$files[] = $sitemapDefault;
+
 		foreach ($files as $file)
 		{
 
@@ -299,8 +308,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 					}
 					else
 					{
-						$exception = new Exception(Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'), 404);
-						ExceptionHandler::render($exception);
+						throw new Exception(Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'), 404);
 					}
 
 					$this->app->close();
