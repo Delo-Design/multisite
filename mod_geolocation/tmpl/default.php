@@ -8,11 +8,16 @@
  * @link       http://your.url.com
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 $find = ModGeolocationHelper::findRoute();
 $list = ModGeolocationHelper::getAllSubdomains();
 $active = ModGeolocationHelper::getActive();
+$domain = ModGeolocationHelper::getDomain();
+$config = Factory::getConfig();
+$https = $config->get('') ? 'https://' : 'http://';
 ?>
 
 <div class="uk-inline geolocation">
@@ -26,7 +31,7 @@ $active = ModGeolocationHelper::getActive();
                 <div class="city"><?php echo $find->name ?></div>
                 <div class="buttons uk-grid-small" data-uk-grid>
                     <div class="uk-width-auto">
-                        <a href="http://<?php echo $_SERVER['SERVER_NAME'] ?>?redirectDomain=<?php echo $find->subdomain ?>;" class="uk-button uk-button-primary uk-width-1-1">Да</a>
+                        <a href="<?php echo $https ?><?php echo $find->subdomain ?>.<?php echo $domain ?>" class="uk-button uk-button-primary uk-width-1-1">Да</a>
                     </div>
                     <div class="uk-width-expand">
                         <button class="uk-button uk-button-only-border button-change-city uk-width-1-1">Выбрать другой</button>
@@ -53,7 +58,11 @@ $active = ModGeolocationHelper::getActive();
         <div class="list-subdomains" data-uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
 				<?php foreach ($list as $item) : ?>
-                    <li><a href="http://<?php echo $_SERVER['SERVER_NAME'] ?>?redirectDomain=<?php echo $item->subdomain ?>;"><?php echo $item->name ?></a></li>
+                    <?php if((int)$item->default) : ?>
+                        <li><a href="<?php echo $https ?><?php echo $domain ?>"><?php echo $item->name ?></a></li>
+					<?php else : ?>
+                        <li><a href="<?php echo $https ?><?php echo $item->subdomain ?>.<?php echo $domain ?>"><?php echo $item->name ?></a></li>
+					<?php endif; ?>
 				<?php endforeach; ?>
             </ul>
         </div>

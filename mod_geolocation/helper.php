@@ -31,6 +31,17 @@ class ModGeolocationHelper
 		return false;
 	}
 
+	/**
+	 *
+	 * @return mixed
+	 *
+	 * @since version
+	 */
+	public static function getDomain()
+	{
+		JLoader::register('plgSystemMultisiteswitchHelper', JPATH_ROOT . '/plugins/system/multisiteswitch/helper.php');
+		return plgSystemMultisiteswitchHelper::getDomain();
+	}
 
 	/**
 	 *

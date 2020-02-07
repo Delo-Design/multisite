@@ -54,4 +54,29 @@ class plgSystemMultisiteswitchHelper
 	}
 
 
+	/**
+	 * @param null $host
+	 *
+	 * @return string
+	 *
+	 * @since version
+	 */
+	public static function getDomain($host = null)
+	{
+		if($host === null)
+		{
+			$host = 'http://' . $_SERVER['SERVER_NAME'];
+		}
+
+		$pieces = parse_url($host);
+		$domain = isset($pieces['host']) ? $pieces['host'] : '';
+		if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs))
+		{
+			return $regs['domain'];
+		}
+
+		return false;
+	}
+
+
 }

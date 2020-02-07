@@ -100,18 +100,11 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		$config = Factory::getConfig();
 		$https = $config->get('') ? 'https://' : 'http://';
-		$redirectDomain = $app->input->get('redirectDomain', '');
 		$domain = $_SERVER['SERVER_NAME'];
 		$domainSplit = explode('.', $domain);
 		$subDomains = $this->params->get('subdomains', []);
 		$defaultSubDomain = false;
 		self::$listSubdomains = $subDomains;
-
-		if(!empty($redirectDomain))
-		{
-			$redirectDomain = str_replace(';', '', $redirectDomain);
-			$app->redirect($https . $redirectDomain . $_SERVER['SERVER_NAME'], 301);
-		}
 
 		//ищем дефолтный субдомен
 		foreach ($subDomains as $subDomain)
