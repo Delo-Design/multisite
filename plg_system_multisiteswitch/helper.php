@@ -52,4 +52,6 @@ class plgSystemMultisiteswitchHelper
 		$subDomains = $params->get('subdomains', []);
 		return $subDomains;
 	}
+
+
 }
