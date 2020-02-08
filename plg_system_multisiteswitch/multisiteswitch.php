@@ -115,7 +115,9 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			}
 		}
 
-		if(count($domainSplit) === 3) {
+
+		if(count($domainSplit) === 3)
+		{
 			$subDomainFromUrl = array_shift($domainSplit);
 
 			if($defaultSubDomain)
@@ -136,6 +138,11 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 
 		self::$subDomain = $subDomainFromUrl;
+
+		if((int)$defaultSubDomain->www && $subDomainFromUrl === 'www')
+		{
+			self::$subDomain = $defaultSubDomain->subdomain;
+		}
 
 		if(substr_count($_SERVER['REQUEST_URI'], 'index.php') === 0)
 		{
