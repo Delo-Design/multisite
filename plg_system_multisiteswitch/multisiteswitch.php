@@ -99,7 +99,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 
 		$config = Factory::getConfig();
-		$https = $config->get('') ? 'https://' : 'http://';
+		$https = (int)$config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
 		$domain = $_SERVER['SERVER_NAME'];
 		$domainSplit = explode('.', $domain);
 		$subDomains = $this->params->get('subdomains', []);

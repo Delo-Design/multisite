@@ -17,7 +17,7 @@ $list = ModGeolocationHelper::getAllSubdomains();
 $active = ModGeolocationHelper::getActive();
 $domain = ModGeolocationHelper::getDomain();
 $config = Factory::getConfig();
-$https = $config->get('') ? 'https://' : 'http://';
+$https = (int)$config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
 ?>
 
 <div class="uk-inline geolocation">
