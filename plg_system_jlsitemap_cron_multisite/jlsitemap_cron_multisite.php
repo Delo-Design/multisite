@@ -165,6 +165,14 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		}
 	}
 
+
+	/**
+	 * @param $urls
+	 *
+	 *
+	 * @throws Exception
+	 * @since version
+	 */
 	protected function splitUrlsForSubdomain(&$urls)
 	{
 		$maps = [];
@@ -226,6 +234,14 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 	}
 
+
+	/**
+	 * @param $map
+	 *
+	 * @return array
+	 *
+	 * @since version
+	 */
 	protected function buildMap($map)
 	{
 		JLoader::register('plgSystemMultisiteswitchHelper', JPATH_PLUGINS . '/system/multisiteswitch/helper.php');
@@ -275,6 +291,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		$build($map);
 		return $output;
 	}
+
 
 	/**
 	 * Method to get sitemap xml string
@@ -354,6 +371,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		return $xml;
 	}
 
+
 	/**
 	 * Method to check client cache time
 	 *
@@ -375,4 +393,6 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 		return (Factory::getDate()->toUnix() >= $cache->toUnix());
 	}
+
+
 }
