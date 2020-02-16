@@ -13,6 +13,7 @@ class ModGeolocationHelper
 		$list = self::getRouteRegionsAndCityFromParams();
 		$current = JIpgeobase::get();
 		$findSubDomain = '';
+
 		foreach ($list as $subdomain => $value)
 		{
 			$findRegion = $current['region'] === $value['region'];
