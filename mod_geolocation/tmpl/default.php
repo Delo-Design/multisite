@@ -31,7 +31,7 @@ $https = (int)$config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
                 <div class="city"><?php echo $find->name ?></div>
                 <div class="buttons uk-grid-small" data-uk-grid>
                     <div class="uk-width-auto">
-						<?php if((int)$item->default) : ?>
+						<?php if((int)$find->default) : ?>
                             <a href="<?php echo $https ?><?php echo $domain ?>" class="uk-button uk-button-primary uk-width-1-1">Да</a>
 						<?php else : ?>
                             <a href="<?php echo $https ?><?php echo $find->subdomain ?>.<?php echo $domain ?>" class="uk-button uk-button-primary uk-width-1-1">Да</a>
