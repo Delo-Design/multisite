@@ -208,11 +208,10 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		foreach ($subDomains as $subDomain)
 		{
 
-			$body = preg_replace_callback('#(\/?\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-\?\=]+?\/)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain)
+			$body = preg_replace_callback('#(\/?\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-\?\=]+?\/?)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain)
 			{
 
 				$sep = substr_count($matches[4], '/') ? '/' : '';
-
 
 				$matches[1] = str_replace('/', '', $matches[1]);
 
