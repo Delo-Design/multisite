@@ -22,9 +22,17 @@
 		<fields name="params">
 			<fieldset
 					name="advanced">
+
+				<field
+						name="layout"
+						type="modulelayout"
+						label="JFIELD_ALT_LAYOUT_LABEL"
+						description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 			</fieldset>
