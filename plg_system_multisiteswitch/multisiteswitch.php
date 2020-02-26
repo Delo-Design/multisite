@@ -205,8 +205,14 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		$body = $this->app->getBody();
 		$subDomains = $this->params->get('subdomains', []);
 
+
 		foreach ($subDomains as $subDomain)
 		{
+
+			if($subDomain->subdomain !== self::$subDomain)
+			{
+				continue;
+			}
 
 			$body = preg_replace_callback('#(\/?\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-\?\=]+?\/?)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain)
 			{
