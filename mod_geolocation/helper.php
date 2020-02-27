@@ -24,10 +24,14 @@ class ModGeolocationHelper
 			}
 		}
 
-		if($findSubDomain->subdomain !== plgSystemMultisiteswitch::$subDomain)
+		if(isset($findSubDomain->subdomain))
 		{
-			return $findSubDomain;
+			if($findSubDomain->subdomain !== plgSystemMultisiteswitch::$subDomain)
+			{
+				return $findSubDomain;
+			}
 		}
+
 
 		return false;
 	}
