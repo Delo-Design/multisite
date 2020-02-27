@@ -165,14 +165,6 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		}
 	}
 
-
-	/**
-	 * @param $urls
-	 *
-	 *
-	 * @throws Exception
-	 * @since version
-	 */
 	protected function splitUrlsForSubdomain(&$urls)
 	{
 		$maps = [];
@@ -234,20 +226,12 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 	}
 
-
-	/**
-	 * @param $map
-	 *
-	 * @return array
-	 *
-	 * @since version
-	 */
 	protected function buildMap($map)
 	{
 		JLoader::register('plgSystemMultisiteswitchHelper', JPATH_PLUGINS . '/system/multisiteswitch/helper.php');
 
 		$config = Factory::getConfig();
-		$https = $config->get('') ? 'https://' : 'http://';
+		$https = (int)$config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
 		$subdomainDefault = plgSystemMultisiteswitchHelper::getSubdomainDefault();
 		$output = [];
 		$build = static function ($splitMap) use (&$output, &$build, $https, $subdomainDefault) {
@@ -255,12 +239,14 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 			$link = '';
 			$subdomain = '';
 			$linkSource = explode('/', $item->get('link', ''));
+			$serverName = $_SERVER['SERVER_NAME'];
 
 			if(isset($linkSource[1]))
 			{
 				$subdomain = $linkSource[1];
 				unset($linkSource[1]);
 			}
+
 
 			if($subdomainDefault->subdomain === $subdomain)
 			{
@@ -269,10 +255,11 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 			else
 			{
 				$subdomain .= '.';
+				$serverName = str_replace('www.', '', $serverName);
 			}
 
 			$link = implode('/', $linkSource);
-			$loc = $https . $subdomain . $_SERVER['SERVER_NAME'] . $link;
+			$loc = $https . $subdomain . $serverName . $link;
 			$item->set('link', $link);
 			$item->set('loc', $loc);
 
@@ -291,7 +278,6 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		$build($map);
 		return $output;
 	}
-
 
 	/**
 	 * Method to get sitemap xml string
@@ -371,7 +357,6 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		return $xml;
 	}
 
-
 	/**
 	 * Method to check client cache time
 	 *
@@ -393,6 +378,4 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 		return (Factory::getDate()->toUnix() >= $cache->toUnix());
 	}
-
-
 }
