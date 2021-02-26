@@ -1,2 +1,2 @@
-# multisite
+# multisiting for Joomla!
 Мультисайтинг для Joomla!
