@@ -178,7 +178,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	public function postprocessBuildRule(&$router, &$uri)
 	{
 		$admin = $this->app->isClient('administrator');
-		$customizer = !empty($this->app->input->get('customizer'));
+		//$customizer = !empty($this->app->input->get('customizer'));
+		$customizer = false;
 
 		if($admin || $customizer)
 		{
@@ -198,7 +199,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	public function onZnatokRedirectPrepare($params, &$redirect, &$current)
 	{
 		$admin = $this->app->isClient('administrator');
-		$customizer = !empty($this->app->input->get('customizer'));
+		//$customizer = !empty($this->app->input->get('customizer'));
+		$customizer = false;
 
 		if($admin || $customizer)
 		{
