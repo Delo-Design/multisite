@@ -170,6 +170,48 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		$this->loadFilesFromMenu();
 
+		$router = JApplicationCms::getInstance('site')->getRouter('site');
+		$router->attachBuildRule(array($this, 'postprocessBuildRule'), JRouter::PROCESS_AFTER);
+	}
+
+
+	public function postprocessBuildRule(&$router, &$uri)
+	{
+		$admin = $this->app->isClient('administrator');
+		$customizer = !empty($this->app->input->get('customizer'));
+
+		if($admin || $customizer)
+		{
+			return false;
+		}
+
+		$subDomains = $this->params->get('subdomains', []);
+
+		foreach ($subDomains as $subDomain)
+		{
+			$uri->setPath(str_replace('/' . $subDomain->subdomain, '', $uri->getPath()));
+		}
+
+	}
+
+
+	public function onZnatokRedirectPrepare($params, &$redirect, &$current)
+	{
+		$admin = $this->app->isClient('administrator');
+		$customizer = !empty($this->app->input->get('customizer'));
+
+		if($admin || $customizer)
+		{
+			return false;
+		}
+
+		$subDomains = $this->params->get('subdomains', []);
+
+		foreach ($subDomains as $subDomain)
+		{
+			$current = str_replace('/' . $subDomain->subdomain, '', $current);
+		}
+
 	}
 
 
