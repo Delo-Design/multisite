@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.9" type="package" method="upgrade">
-	<name>PKG_MULTISITE</name>
-	<packagename>multisite</packagename>
-	<creationDate>08.12.2019</creationDate>
-	<author>Cymbal</author>
-	<authorEmail>cymbal@delo-design.ru</authorEmail>
-	<authorUrl>https://delo-design.ru</authorUrl>
-	<copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>1.2</version>
-	<description>PKG_MULTISITE_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
+    <name>PKG_MULTISITE</name>
+    <packagename>multisite</packagename>
+    <creationDate>08.12.2019</creationDate>
+    <author>Cymbal</author>
+    <authorEmail>cymbal@delo-design.ru</authorEmail>
+    <authorUrl>https://delo-design.ru</authorUrl>
+    <copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.2</version>
+    <description>PKG_MULTISITE_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
 
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.pkg_multisite.sys.ini</language>
-		<language tag="ru-RU">ru-RU/ru-RU.pkg_multisite.sys.ini</language>
-	</languages>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.pkg_multisite.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.pkg_multisite.sys.ini</language>
+    </languages>
 
-	<files>
-		<folder type="plugin" group="system" id="multisiteswitch">plg_system_multisiteswitch</folder>
-		<folder type="plugin" group="content" id="multisiteswitchform">plg_content_multisiteswitchform</folder>
-		<folder type="plugin" group="system" id="modulelabel">plg_system_modulelabel</folder>
-		<folder type="plugin" group="system" id="findcityorregions">plg_system_findcityorregions</folder>
-		<folder type="library" id="ipgeobase">lib_ipgeobase</folder>
-		<folder type="module" id="mod_geolocation">mod_geolocation</folder>
-	</files>
+    <files>
+        <folder type="plugin" group="system" id="findcityorregions">plugins/system/findcityorregions</folder>
+        <folder type="plugin" group="system" id="jlsitemap_cron_multisite">plugins/system/jlsitemap_cron_multisite</folder>
+        <folder type="plugin" group="system" id="modulelabel">plugins/system/modulelabel</folder>
+        <folder type="plugin" group="system" id="multisiteswitch">plugins/system/multisiteswitch</folder>
+        <folder type="plugin" group="content" id="multisiteswitchform">plugins/content/multisiteswitchform</folder>
+        <folder type="library" id="ipgeobase">libraries/lib_ipgeobase</folder>
+        <folder type="module" id="mod_geolocation">modules/mod_geolocation</folder>
+    </files>
 </extension>

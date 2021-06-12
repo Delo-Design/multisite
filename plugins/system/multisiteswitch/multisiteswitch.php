@@ -9,7 +9,6 @@
  */
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
