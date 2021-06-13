@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JEXEC') or die;
 /**
  * @package    multisiteswitch
  *
@@ -8,7 +8,7 @@
  * @link       http://your.url.com
  */
 
-defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 
 /**
  * findcityorregions script file.
@@ -18,55 +18,30 @@ defined('_JEXEC') or die;
  */
 class plgSystemFindcityorregionsInstallerScript
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
-	 */
-	public function __construct(JAdapterInstance $adapter) {}
 
-	/**
-	 * Called before any type of action
-	 *
-	 * @param   string  $route  Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
-	 *
-	 * @return  boolean  True on success
-	 */
-	public function preflight($route, JAdapterInstance $adapter) {}
+	public function postflight($type, $parent)
+	{
+		// Enable plugin
+		if ($type === 'install')
+		{
+			$this->enablePlugin($parent);
+		}
 
-	/**
-	 * Called after any type of action
-	 *
-	 * @param   string  $route  Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
-	 *
-	 * @return  boolean  True on success
-	 */
-	public function postflight($route, JAdapterInstance $adapter) {}
+		return true;
+	}
 
-	/**
-	 * Called on installation
-	 *
-	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
-	 *
-	 * @return  boolean  True on success
-	 */
-	public function install(JAdapterInstance $adapter) {}
 
-	/**
-	 * Called on update
-	 *
-	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
-	 *
-	 * @return  boolean  True on success
-	 */
-	public function update(JAdapterInstance $adapter) {}
+	protected function enablePlugin($parent)
+	{
+		// Prepare plugin object
+		$plugin          = new stdClass();
+		$plugin->type    = 'plugin';
+		$plugin->element = $parent->getElement();
+		$plugin->folder  = (string) $parent->getParent()->manifest->attributes()['group'];
+		$plugin->enabled = 1;
 
-	/**
-	 * Called on uninstallation
-	 *
-	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
-	 */
-	public function uninstall(JAdapterInstance $adapter) {}
+		// Update record
+		Factory::getDbo()->updateObject('#__extensions', $plugin, ['type', 'element', 'folder']);
+	}
+
 }

@@ -9,6 +9,7 @@
 	<authorUrl>nerudas.ru</authorUrl>
 	<version>1.1.0</version>
 	<description>PLG_SYSTEM_MODULELABEL_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_modulelabel.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_system_modulelabel.sys.ini</language>

@@ -9,6 +9,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0</version>
 	<description>PLG_FINDCITYORREGIONS_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
 
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_findcityorregions.ini</language>

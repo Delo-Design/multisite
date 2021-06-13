@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JEXEC') or die;
 /**
  * @package    multisiteswitch
  *
@@ -10,7 +10,6 @@
 
 use Joomla\CMS\Factory;
 
-defined('_JEXEC') or die;
 
 /**
  * Multisiteswitch script file.
@@ -18,7 +17,7 @@ defined('_JEXEC') or die;
  * @package   multisiteswitch
  * @since     1.0.0
  */
-class plgSystemMultisiteswitchInstallerScript
+class plgSystemModulelabelInstallerScript
 {
 
 
@@ -46,5 +45,5 @@ class plgSystemMultisiteswitchInstallerScript
 		// Update record
 		Factory::getDbo()->updateObject('#__extensions', $plugin, ['type', 'element', 'folder']);
 	}
-
+	
 }
