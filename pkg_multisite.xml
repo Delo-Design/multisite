@@ -22,7 +22,6 @@
     </languages>
 
     <files>
-        <folder type="plugin" group="system" id="findcityorregions">plugins/system/findcityorregions</folder>
         <folder type="plugin" group="system" id="jlsitemap_cron_multisite">plugins/system/jlsitemap_cron_multisite</folder>
         <folder type="plugin" group="system" id="modulelabel">plugins/system/modulelabel</folder>
         <folder type="plugin" group="system" id="multisiteswitch">plugins/system/multisiteswitch</folder>
