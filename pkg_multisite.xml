@@ -26,6 +26,8 @@
         <folder type="library" id="ipgeobase">libraries/lib_ipgeobase</folder>
         <folder type="module" id="mod_geolocation">modules/mod_geolocation</folder>
         <folder type="packages" id="pkg_jlsitemap">packages/pkg_jlsitemap.zip</folder>
-        <folder type="packages" id="pkg_znatok">packages/pkg_znatok.zip</folder>
+        <folder type="file">files</folder>
+
     </files>
+
 </extension>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="file" version="3.*" method="upgrade">
+    <name>FILES_MULTISITEFILES</name>
+    <creationDate>15.08.2020</creationDate>
+    <author>Cymbal</author>
+    <authorEmail>cymbal@delo-design.ru</authorEmail>
+    <authorUrl>https://delo-design.ru</authorUrl>
+    <copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0</version>
+    <description>FILES_MULTISITEFILES_XML_DESCRIPTION</description>
+
+    <files folder="template/html/com_modules/module" target="administrator/templates/isis/html/com_modules/module"></files>
+
+</extension>
