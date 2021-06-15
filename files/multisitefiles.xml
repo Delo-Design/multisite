@@ -10,6 +10,8 @@
     <version>1.0</version>
     <description>FILES_MULTISITEFILES_XML_DESCRIPTION</description>
 
-    <files folder="template/html/com_modules/module" target="administrator/templates/isis/html/com_modules/module"></files>
+    <fileset>
+        <files folder="template/html/com_modules/module" target="administrator/templates/isis/html/com_modules/module"></files>
+    </fileset>
 
 </extension>
