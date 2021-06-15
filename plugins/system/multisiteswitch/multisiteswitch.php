@@ -89,39 +89,39 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		$app = $this->app;
+		$app   = $this->app;
 		$admin = $app->isClient('administrator');
 
-		if($admin)
+		if ($admin)
 		{
 			return false;
 		}
 
-		$config = Factory::getConfig();
-		$https = (int)$config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
-		$domain = $_SERVER['SERVER_NAME'];
-		$domainSplit = explode('.', $domain);
-		$subDomains = $this->params->get('subdomains', []);
-		$defaultSubDomain = false;
+		$config               = Factory::getConfig();
+		$https                = (int) $config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
+		$domain               = $_SERVER['SERVER_NAME'];
+		$domainSplit          = explode('.', $domain);
+		$subDomains           = $this->params->get('subdomains', []);
+		$defaultSubDomain     = false;
 		self::$listSubdomains = $subDomains;
 
 		//ищем дефолтный субдомен
 		foreach ($subDomains as $subDomain)
 		{
-			if((int)$subDomain->default)
+			if ((int) $subDomain->default)
 			{
 				$defaultSubDomain = $subDomain;
 			}
 		}
 
 
-		if(count($domainSplit) === 3)
+		if (count($domainSplit) === 3)
 		{
 			$subDomainFromUrl = array_shift($domainSplit);
 
-			if($defaultSubDomain)
+			if ($defaultSubDomain)
 			{
-				if($defaultSubDomain->subdomain === $subDomainFromUrl)
+				if ($defaultSubDomain->subdomain === $subDomainFromUrl)
 				{
 					$app->redirect($https . implode('.', $domainSplit), 301);
 				}
@@ -130,7 +130,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 		else
 		{
-			if($defaultSubDomain)
+			if ($defaultSubDomain)
 			{
 				$subDomainFromUrl = $defaultSubDomain->subdomain;
 			}
@@ -138,34 +138,32 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		self::$subDomain = $subDomainFromUrl;
 
-		if((int)$defaultSubDomain->www && $subDomainFromUrl === 'www')
+		if ((int) $defaultSubDomain->www && $subDomainFromUrl === 'www')
 		{
 			self::$subDomain = $defaultSubDomain->subdomain;
 		}
 
-		if(substr_count($_SERVER['REQUEST_URI'], 'index.php') === 0)
-		{
-			self::$sourceURI = $_SERVER['REQUEST_URI'];
-			$_SERVER['REQUEST_URI'] = '/' . self::$subDomain . $_SERVER['REQUEST_URI'];
-		}
-		else
-		{
-			self::$sourceURI = $_SERVER['REQUEST_URI'];
-			$_SERVER['REQUEST_URI'] = '/' . self::$subDomain . str_replace('index.php', '', $_SERVER['REQUEST_URI']);
-		}
 
 		foreach ($subDomains as $subDomain)
 		{
-			$signSub = $subDomain->subdomain === self::$subDomain;
-			$signEmpty = empty(self::$subDomain) && (int)$subDomain->default;
+			$signSub   = $subDomain->subdomain === self::$subDomain;
+			$signEmpty = empty(self::$subDomain) && (int) $subDomain->default;
 
-			if($signSub || $signEmpty)
+			if ($signSub || $signEmpty)
 			{
 				self::$defaultMenuItem = $subDomain->menuitem;
-				self::$activeItem = $subDomain;
+				self::$activeItem      = $subDomain;
 				break;
 			}
 		}
+
+		//вызов триггера
+		$this->app->triggerEvent('onAfterMultisite', [
+			&self::$subDomain,
+			&self::$defaultMenuItem,
+			&self::$activeItem,
+			&self::$sourceURI
+		]);
 
 		$this->loadFilesFromMenu();
 
@@ -180,7 +178,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		//$customizer = !empty($this->app->input->get('customizer'));
 		$customizer = false;
 
-		if($admin || $customizer)
+		if ($admin || $customizer)
 		{
 			return false;
 		}
@@ -201,7 +199,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		//$customizer = !empty($this->app->input->get('customizer'));
 		$customizer = false;
 
-		if($admin || $customizer)
+		if ($admin || $customizer)
 		{
 			return false;
 		}
@@ -220,7 +218,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	{
 		$admin = $this->app->isClient('administrator');
 
-		if($admin)
+		if ($admin)
 		{
 			return false;
 		}
@@ -235,36 +233,35 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 	public function onAfterRender()
 	{
-		$admin = $this->app->isClient('administrator');
+		$admin      = $this->app->isClient('administrator');
 		$customizer = !empty($this->app->input->get('customizer'));
 
-		if($admin || $customizer)
+		if ($admin || $customizer)
 		{
 			return false;
 		}
 
 		$domain = $_SERVER['SERVER_NAME'];
 
-		$body = $this->app->getBody();
+		$body       = $this->app->getBody();
 		$subDomains = $this->params->get('subdomains', []);
 
 
 		foreach ($subDomains as $subDomain)
 		{
 
-			if($subDomain->subdomain !== self::$subDomain)
+			if ($subDomain->subdomain !== self::$subDomain)
 			{
 				continue;
 			}
 
-			$body = preg_replace_callback('#(\/?\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-\?\=]+?\/?)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain)
-			{
+			$body = preg_replace_callback('#(\/?\[s\])?(https?:\/\/)?([a-zA-Z0-9\.\-\?\=]+?\/?)?(' . $subDomain->subdomain . '\/?)(.)#i', function ($matches) use ($subDomain, $domain) {
 
 				$sep = substr_count($matches[4], '/') ? '/' : '';
 
 				$matches[1] = str_replace('/', '', $matches[1]);
 
-				if($matches[1] === '[s]')
+				if ($matches[1] === '[s]')
 				{
 					return str_replace('[s]', '', $matches[0]);
 				}
@@ -273,9 +270,9 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 				$check = empty($matches[3]) || strpos($matches[3], $domain) !== false;
 
-				if($check)
+				if ($check)
 				{
-					if((int)$subDomain->default)
+					if ((int) $subDomain->default)
 					{
 						$dic = ['.', '/', '"', '?'];
 					}
@@ -284,7 +281,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 						$dic = ['/', '"', '?'];
 					}
 
-					if(in_array($matches[5], $dic) || $sep === '/')
+					if (in_array($matches[5], $dic) || $sep === '/')
 					{
 						$matches[4] = '';
 					}
@@ -292,6 +289,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 
 				$link = str_replace('//', '/', $matches[3] . $matches[4] . $matches[5]);
+
 				return $matches[2] . $link;
 
 			}, $body);
@@ -303,31 +301,31 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 	private function loadFilesFromMenu()
 	{
-		$url = preg_replace('#\?.*$#i','', self::$sourceURI);
+		$url = preg_replace('#\?.*$#i', '', self::$sourceURI);
 
-		$query = $this->db->getQuery(true)
+		$query     = $this->db->getQuery(true)
 			->select($this->db->quoteName(['alias', 'params']))
 			->from('#__menu')
-			->where( 'id =' . (int)self::$defaultMenuItem);
-		$extension = $this->db->setQuery( $query )->loadObject();
-		$params = new Registry($extension->params);
-		$document = Factory::getDocument();
-		$files = $params->get('files', []);
-		$metas = $params->get('metas', []);
+			->where('id =' . (int) self::$defaultMenuItem);
+		$extension = $this->db->setQuery($query)->loadObject();
+		$params    = new Registry($extension->params);
+		$document  = Factory::getDocument();
+		$files     = $params->get('files', []);
+		$metas     = $params->get('metas', []);
 
-		$sitemapDefault = new stdClass();
-		$sitemapDefault->type = 'file';
-		$sitemapDefault->url = 'sitemap.xml';
+		$sitemapDefault                    = new stdClass();
+		$sitemapDefault->type              = 'file';
+		$sitemapDefault->url               = 'sitemap.xml';
 		$sitemapDefault->headercontenttype = 'text/xml';
-		$sitemapDefault->file = '/sitemaps/' . self::$subDomain . '.xml';
+		$sitemapDefault->file              = '/sitemaps/' . self::$subDomain . '.xml';
 
-		$files = (array)$files;
+		$files   = (array) $files;
 		$files[] = $sitemapDefault;
 
 		foreach ($files as $file)
 		{
 
-			if($url === ('/' . $file->url))
+			if ($url === ('/' . $file->url))
 			{
 
 				if ($file->type === 'text')
@@ -366,7 +364,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 
 
-		if(method_exists($document, 'addCustomTag'))
+		if (method_exists($document, 'addCustomTag'))
 		{
 			foreach ($metas as $meta)
 			{

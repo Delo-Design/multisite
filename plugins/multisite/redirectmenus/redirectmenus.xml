@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.*" group="multisite" method="upgrade">
+    <name>PLG_REDIRECTMENUS</name>
+    <creationDate>16.06.2021</creationDate>
+    <author>Cymbal</author>
+    <authorEmail>cymbal@delo-design.ru</authorEmail>
+    <authorUrl>https://delo-design.ru</authorUrl>
+    <copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.2</version>
+    <description>PLG_REDIRECTMENUS_XML_DESCRIPTION</description>
+
+    <scriptfile>script.php</scriptfile>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_multisite_redirectmenus.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_multisite_redirectmenus.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_multisite_redirectmenus.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_multisite_redirectmenus.sys.ini</language>
+    </languages>
+
+    <files>
+        <filename plugin="redirectmenus">redirectmenus.php</filename>
+        <folder>language</folder>
+    </files>
+
+</extension>

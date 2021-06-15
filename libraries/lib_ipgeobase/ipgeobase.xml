@@ -17,6 +17,12 @@
         </sql>
     </install>
 
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall/mysql/mysql.sql</file>
+        </sql>
+    </uninstall>
+
     <files>
         <folder>fields</folder>
         <folder>helpers</folder>
