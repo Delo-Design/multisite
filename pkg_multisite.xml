@@ -12,6 +12,10 @@
     <description>PKG_MULTISITE_DESCRIPTION</description>
     <scriptfile>script.php</scriptfile>
 
+    <updateservers>
+        <server type="extension" priority="1" name="Multisite package">https://hika.su/update/free/pkg_multisite.xml</server>
+    </updateservers>
+
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.pkg_multisite.sys.ini</language>
         <language tag="ru-RU">ru-RU/ru-RU.pkg_multisite.sys.ini</language>
