@@ -26,7 +26,7 @@
 	</files>
 
 	<config>
-		<fields name="params" addfieldpath="/libraries/ipgeobase/fields">
+		<fields name="params" addfieldpath="/libraries/lib_fields/fields/ipgeobase/fields">
 			<fieldset name="basic">
 
 				<field
