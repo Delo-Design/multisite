@@ -171,6 +171,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		$router = JApplicationCms::getInstance('site')->getRouter('site');
 		$router->attachBuildRule(array($this, 'postprocessBuildRule'), JRouter::PROCESS_AFTER);
+		$router->attachParseRule(array($this, 'postprocessParseRule'), JRouter::PROCESS_BEFORE);
+
 	}
 
 
@@ -191,6 +193,22 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		{
 			$uri->setPath(str_replace('/' . $subDomain->subdomain, '', $uri->getPath()));
 		}
+
+	}
+
+
+	public function postprocessParseRule(&$router, &$uri)
+	{
+		$admin = $this->app->isClient('administrator');
+		//$customizer = !empty($this->app->input->get('customizer'));
+		$customizer = false;
+
+		if ($admin || $customizer)
+		{
+			return false;
+		}
+
+		$uri->setPath(substr($_SERVER['REQUEST_URI'], 1));
 
 	}
 
