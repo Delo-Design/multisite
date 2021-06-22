@@ -23,8 +23,7 @@
 
     <files>
         <folder type="library" id="lib_fields">libraries/lib_fields.zip</folder>
-        <folder type="plugin" group="system" id="jlsitemap_cron_multisite">plugins/system/jlsitemap_cron_multisite
-        </folder>
+        <folder type="plugin" group="system" id="jlsitemap_cron_multisite">plugins/system/jlsitemap_cron_multisite</folder>
         <folder type="plugin" group="system" id="modulelabel">plugins/system/modulelabel</folder>
         <folder type="plugin" group="system" id="multisiteswitch">plugins/system/multisiteswitch</folder>
         <folder type="plugin" group="content" id="multisiteswitchform">plugins/content/multisiteswitchform</folder>
