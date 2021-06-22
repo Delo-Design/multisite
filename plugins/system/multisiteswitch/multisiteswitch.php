@@ -226,11 +226,12 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
+		/*
 		$menu = $this->app->getMenu();
 		$menu->setDefault(self::$defaultMenuItem);
 		$theme = HTMLHelper::_('theme');
 		$theme->set('menu.positions.navbar', self::$subDomain);
-		$theme->set('menu.positions.mobile', self::$subDomain);
+		$theme->set('menu.positions.mobile', self::$subDomain);*/
 	}
 
 
