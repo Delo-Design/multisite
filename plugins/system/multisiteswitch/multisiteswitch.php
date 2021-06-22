@@ -241,7 +241,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
-		$params  = new Joomla\Registry\Registry($element->manifest_cache);
+		$params  = new Registry($element->manifest_cache);
 		$version = $params->get('version');
 
 		if (version_compare('2.0', (string) $version, '>='))
