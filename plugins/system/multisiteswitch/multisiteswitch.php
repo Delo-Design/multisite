@@ -12,6 +12,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
@@ -158,6 +159,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		}
 
 		//вызов триггера
+		PluginHelper::importPlugin('multisite');
 		$this->app->triggerEvent('onAfterMultisite', [
 			&self::$subDomain,
 			&self::$defaultMenuItem,
