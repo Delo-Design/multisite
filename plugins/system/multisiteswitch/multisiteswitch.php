@@ -10,6 +10,7 @@
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -227,7 +228,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		$menu = $this->app->getMenu();
 		$menu->setDefault(self::$defaultMenuItem);
-		$theme = JHtml::_('theme');
+		$theme = HTMLHelper::_('theme');
 		$theme->set('menu.positions.navbar', self::$subDomain);
 		$theme->set('menu.positions.mobile', self::$subDomain);
 	}
