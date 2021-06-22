@@ -244,7 +244,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		$params  = new Registry($element->manifest_cache);
 		$version = $params->get('version');
 
-		if (version_compare('2.0', (string) $version, '>='))
+		if (version_compare((string) $version, '2.0', '>='))
 		{
 			JLoader::register('Yootheme2xHelper', JPATH_PLUGINS . '/system/multisiteswitch/helpers/positions/yootheme2x.php');
 			Yootheme2xHelper::set(self::$subDomain);
