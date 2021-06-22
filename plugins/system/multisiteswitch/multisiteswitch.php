@@ -1,4 +1,5 @@
-<?php
+<?php defined('_JEXEC') or die;
+
 /**
  * @package    multisiteswitch
  *
@@ -10,14 +11,12 @@
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
-defined('_JEXEC') or die;
 
 /**
  * Multisiteswitch plugin.
@@ -226,12 +225,36 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
-/*
 		$menu = $this->app->getMenu();
 		$menu->setDefault(self::$defaultMenuItem);
-		$theme = HTMLHelper::_('theme');
-		$theme->set('menu.positions.navbar', self::$subDomain);
-		$theme->set('menu.positions.mobile', self::$subDomain);*/
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('manifest_cache');
+		$query->from('#__extensions');
+		$query->where($db->qn('folder') . ' = ' . $db->q('system'));
+		$query->where($db->qn('element') . ' = ' . $db->q('yootheme'));
+		$element = $db->setQuery($query)->loadObject();
+
+		if (empty($element->manifest_cache))
+		{
+			return false;
+		}
+
+		$params  = new Joomla\Registry\Registry($element->manifest_cache);
+		$version = $params->get('version');
+
+		if (version_compare('2.0', (string) $version, '>='))
+		{
+			JLoader::register('Yootheme2xHelper', JPATH_PLUGINS . '/system/multisiteswitch/helpers/positions/yootheme2x.php');
+			Yootheme2xHelper::set(self::$subDomain);
+		}
+		else
+		{
+			JLoader::register('Yootheme1xHelper', JPATH_PLUGINS . '/system/multisiteswitch/helpers/positions/yootheme1x.php');
+			Yootheme1xHelper::set(self::$subDomain);
+		}
+
 	}
 
 

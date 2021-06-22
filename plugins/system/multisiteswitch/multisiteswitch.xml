@@ -22,6 +22,7 @@
 	<files>
 		<filename plugin="multisiteswitch">multisiteswitch.php</filename>
 		<filename plugin="multisiteswitch">helper.php</filename>
+		<folder>helpers</folder>
 		<folder>language</folder>
 	</files>
 
