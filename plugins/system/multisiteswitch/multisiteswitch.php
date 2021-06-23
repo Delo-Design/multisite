@@ -208,7 +208,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
-		$path = preg_replace("#\?.*$#isu",'', $_SERVER['REQUEST_URI']);
+		$path = preg_replace("#\?.*$#isu", '', $_SERVER['REQUEST_URI']);
 		$uri->setPath(substr($path, 1));
 
 	}
