@@ -11,30 +11,28 @@ class JFormFieldListsubdomains extends JFormFieldSubform
 	{
 		$subdomains = ConfigHelper::get('subdomains', []);
 		$i          = 0;
-		$values     = $this->value;
+		$values     = [];
 
-		if (empty($values))
+		foreach ($subdomains as $subdomain)
 		{
-			foreach ($subdomains as $subdomain)
-			{
-				$values['subdomains' . $i] = [
-					'subdomain' => $subdomain->subdomain,
-					'name'      => $subdomain->name,
-					'enable'    => 1,
-				];
-				$i++;
-			}
+			$values['subdomains' . $i] = [
+				'subdomain' => $subdomain->subdomain,
+				'name'      => $subdomain->name,
+				'enable'    => 1,
+			];
+			$i++;
 		}
-		else
+
+		if (!empty($this->value))
 		{
 			foreach ($values as &$value)
 			{
-				foreach ($subdomains as $subdomain)
+				foreach ($this->value as $value_saved)
 				{
 
-					if ($subdomain->subdomain === $value['subdomain'])
+					if ($value['subdomain'] === $value_saved['subdomain'])
 					{
-						$value['name'] = $subdomain->name;
+						$value['enable'] = $value_saved['enable'];
 					}
 
 				}
