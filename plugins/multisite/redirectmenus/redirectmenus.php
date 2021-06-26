@@ -51,6 +51,12 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 
 	public function onAfterMultisite(&$subDomain, &$defaultMenuItem, &$activeItem, &$sourceURI)
 	{
+
+		if(strpos($sourceURI, '/component') === 0)
+		{
+			return;
+		}
+
 		$subDomains = $this->params->get('subdomains', []);
 
 		foreach ($subDomains as $subDomain_current)
