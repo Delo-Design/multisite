@@ -105,6 +105,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 		$subDomains           = $this->params->get('subdomains', []);
 		$defaultSubDomain     = false;
 		self::$listSubdomains = $subDomains;
+		self::$sourceURI      = $_SERVER['REQUEST_URI'];
+
 
 		//ищем дефолтный субдомен
 		foreach ($subDomains as $subDomain)
@@ -169,47 +171,11 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		$this->loadFilesFromMenu();
 
-		$router = JApplicationCms::getInstance('site')->getRouter('site');
-		$router->attachBuildRule(array($this, 'postprocessBuildRule'), JRouter::PROCESS_AFTER);
-		$router->attachParseRule(array($this, 'postprocessParseRule'), JRouter::PROCESS_BEFORE);
-
-	}
-
-
-	public function postprocessBuildRule(&$router, &$uri)
-	{
-		$admin = $this->app->isClient('administrator');
-		//$customizer = !empty($this->app->input->get('customizer'));
-		$customizer = false;
-
-		if ($admin || $customizer)
+		if (self::$sourceURI === '/')
 		{
-			return false;
+			$menu = $this->app->getMenu();
+			$menu->setDefault(self::$defaultMenuItem);
 		}
-
-		$subDomains = $this->params->get('subdomains', []);
-
-		foreach ($subDomains as $subDomain)
-		{
-			$uri->setPath(str_replace('/' . $subDomain->subdomain, '', $uri->getPath()));
-		}
-
-	}
-
-
-	public function postprocessParseRule(&$router, &$uri)
-	{
-		$admin = $this->app->isClient('administrator');
-		//$customizer = !empty($this->app->input->get('customizer'));
-		$customizer = false;
-
-		if ($admin || $customizer)
-		{
-			return false;
-		}
-
-		$path = preg_replace("#\?.*$#isu", '', $_SERVER['REQUEST_URI']);
-		$uri->setPath(substr($path, 1));
 
 	}
 
@@ -244,8 +210,6 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
-		$menu = $this->app->getMenu();
-		$menu->setDefault(self::$defaultMenuItem);
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);

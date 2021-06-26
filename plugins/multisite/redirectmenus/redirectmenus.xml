@@ -7,7 +7,7 @@
     <authorUrl>https://delo-design.ru</authorUrl>
     <copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.0</version>
+    <version>1.1</version>
     <description>PLG_REDIRECTMENUS_XML_DESCRIPTION</description>
 
     <scriptfile>script.php</scriptfile>
@@ -21,7 +21,44 @@
 
     <files>
         <filename plugin="redirectmenus">redirectmenus.php</filename>
+        <folder>fields</folder>
         <folder>language</folder>
     </files>
 
+    <config>
+        <fields name="params" addfieldpath="/plugins/multisite/redirectmenus/fields">
+            <fieldset name="basic">
+                <field
+                        name="subdomains"
+                        type="listsubdomains"
+                        label="PLG_REDIRECTMENUS_CONFIG_SUBDOMAINS"
+                        multiple="true"
+                        buttons=" "
+                >
+                    <form>
+                        <field
+                            name="subdomain"
+                            type="hidden"
+                        />
+                        <field
+                            name="name"
+                            type="text"
+                            disabled="disabled"
+                            label="PLG_REDIRECTMENUS_CONFIG_SUBDOMAINS_NAME"
+                        />
+                        <field
+                            name="enable"
+                            type="radio"
+                            label="PLG_REDIRECTMENUS_CONFIG_SUBDOMAINS_ENABLE"
+                            class="btn-group btn-group-yesno"
+                            default="1"
+                        >
+                            <option value="1">JYES</option>
+                            <option value="0">JNO</option>
+                        </field>
+                    </form>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
 </extension>
