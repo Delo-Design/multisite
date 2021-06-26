@@ -12,7 +12,7 @@
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
 
-JLoader::register('ConfigHelper', JPATH_PLUGINS . '/system/multisiteswitch/helper/ConfigHelper.php');
+JLoader::register('ConfigHelper', JPATH_PLUGINS . '/system/multisiteswitch/helpers/ConfigHelper.php');
 
 /**
  * Multisiteswitch plugin.
