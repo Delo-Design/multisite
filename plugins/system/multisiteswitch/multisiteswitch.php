@@ -50,6 +50,14 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+
+	/**
+	 * @var   string
+	 * @since version
+	 */
+	public static $domain;
+
+
 	/**
 	 * @var   string
 	 * @since version
@@ -73,6 +81,13 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	 * @since version
 	 */
 	public static $subDomain;
+
+
+	/**
+	 * @var
+	 * @since version
+	 */
+	public static $defaultMenu;
 
 
 	/**
@@ -154,6 +169,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 			if ($signSub || $signEmpty)
 			{
+				self::$defaultMenu     = $subDomain->menu;
 				self::$defaultMenuItem = $subDomain->menuitem;
 				self::$activeItem      = $subDomain;
 				break;
@@ -162,8 +178,9 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 		//вызов триггера
 		PluginHelper::importPlugin('multisite');
-		$this->app->triggerEvent('onAfterMultisite', [
+		$this->app->triggerEvent('onMultisiteAfterInit', [
 			&self::$subDomain,
+			&self::$defaultMenu,
 			&self::$defaultMenuItem,
 			&self::$activeItem,
 			&self::$sourceURI
@@ -210,6 +227,13 @@ class plgSystemMultisiteswitch extends CMSPlugin
 			return false;
 		}
 
+		$this->app->triggerEvent('onMultisiteAfterRoute', [
+			&self::$subDomain,
+			&self::$defaultMenu,
+			&self::$defaultMenuItem,
+			&self::$activeItem,
+			&self::$sourceURI
+		]);
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);

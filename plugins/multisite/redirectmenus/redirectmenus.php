@@ -9,6 +9,7 @@
  * @link       http://your.url.com
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
 
@@ -49,10 +50,10 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 
-	public function onAfterMultisite(&$subDomain, &$defaultMenuItem, &$activeItem, &$sourceURI)
+	public function onMultisiteAfterInit(&$subDomain, &$defaultMenu, &$defaultMenuItem, &$activeItem, &$sourceURI)
 	{
 
-		if(strpos($sourceURI, '/component') === 0)
+		if (strpos($sourceURI, '/component') === 0)
 		{
 			return;
 		}
@@ -66,9 +67,6 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 				!(int) $subDomain_current->enable
 			)
 			{
-
-				// поиск на редирект?
-
 				return;
 			}
 		}
@@ -125,6 +123,80 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 		$path = preg_replace("#\?.*$#isu", '', $_SERVER['REQUEST_URI']);
 		$uri->setPath(substr($path, 1));
 
+	}
+
+
+	public function onMultisiteAfterRoute(&$subDomain, &$defaultMenu, &$defaultMenuItem, &$activeItem, &$sourceURI)
+	{
+		$subDomains = $this->params->get('subdomains', []);
+
+		foreach ($subDomains as $subDomain_current)
+		{
+			if (
+				$subDomain_current->subdomain === $subDomain &&
+				!(int) $subDomain_current->enable
+			)
+			{
+
+				// поиск на редирект?
+				$split = explode('/', $sourceURI);
+
+				if (!isset($split[1]))
+				{
+					return;
+				}
+
+				$active = '';
+				$menu   = $this->app->getMenu();
+				$tmp    = $menu->getActive();
+
+				if (!is_string($tmp))
+				{
+					$tmp = (array) $tmp;
+
+					if (isset($tmp['menutype']))
+					{
+						$active = $tmp['menutype'];
+					}
+
+				}
+				else
+				{
+					$active = $tmp;
+				}
+
+				if (empty($active))
+				{
+					return;
+				}
+
+				if ($defaultMenu === $active)
+				{
+					return;
+				}
+
+				$subdomain_for_redirect = $split[1];
+				$config                 = Factory::getConfig();
+				$https                  = (int) $config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
+				$domain                 = $_SERVER['SERVER_NAME'];
+				$domainSplit            = explode('.', $domain);
+
+				if (count($domainSplit) === 3)
+				{
+					array_shift($domainSplit);
+				}
+
+				array_shift($split);
+				array_shift($split);
+
+				$this->app->redirect(
+					$https . $subdomain_for_redirect . '.' . implode('.', $domainSplit) . '/' . implode('/', $split),
+					301
+				);
+
+				return;
+			}
+		}
 	}
 
 
