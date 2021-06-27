@@ -138,7 +138,7 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 			)
 			{
 
-				// поиск на редирект?
+				// поиск на редирект
 				$split = explode('/', $sourceURI);
 
 				if (!isset($split[1]))
@@ -146,21 +146,22 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 					return;
 				}
 
+				$subdomain_for_redirect = $split[1];
 
-				// проверить, является ли субдоменом
+				// проверяем является ли субдоменом
 				$sub_domains_all = ConfigHelper::get('subdomains', []);
-				$find = false;
+				$find            = false;
 
 				foreach ($sub_domains_all as $subdomain_current)
 				{
-					if($split[1] === $subdomain_current->subdomain)
+					if ($subdomain_for_redirect === $subdomain_current->subdomain)
 					{
 						$find = true;
 						break;
 					}
 				}
 
-				if(!$find)
+				if (!$find)
 				{
 					return;
 				}
@@ -194,11 +195,10 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 					return;
 				}
 
-				$subdomain_for_redirect = $split[1];
-				$config                 = Factory::getConfig();
-				$https                  = (int) $config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
-				$domain                 = $_SERVER['SERVER_NAME'];
-				$domainSplit            = explode('.', $domain);
+				$config      = Factory::getConfig();
+				$https       = (int) $config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
+				$domain      = $_SERVER['SERVER_NAME'];
+				$domainSplit = explode('.', $domain);
 
 				if (count($domainSplit) === 3)
 				{
