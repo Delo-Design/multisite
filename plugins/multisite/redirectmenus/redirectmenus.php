@@ -146,6 +146,25 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 					return;
 				}
 
+
+				// проверить, является ли субдоменом
+				$sub_domains_all = ConfigHelper::get('subdomains', []);
+				$find = false;
+
+				foreach ($sub_domains_all as $subdomain_current)
+				{
+					if($split[1] === $subdomain_current->subdomain)
+					{
+						$find = true;
+						break;
+					}
+				}
+
+				if(!$find)
+				{
+					return;
+				}
+
 				$active = '';
 				$menu   = $this->app->getMenu();
 				$tmp    = $menu->getActive();
