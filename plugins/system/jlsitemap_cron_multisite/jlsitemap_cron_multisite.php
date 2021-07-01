@@ -198,13 +198,12 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		{
 			$domains[$subDomain->subdomain] = 1;
 
-			if(isset($enableds[$subDomain->subdomain]))
+			if (isset($enableds[$subDomain->subdomain]))
 			{
 				$domains[$subDomain->subdomain] = $enableds[$subDomain->subdomain];
 			}
 
 		}
-
 
 		foreach ($includes as $url)
 		{
@@ -309,12 +308,37 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		$output           = [];
 		$domains          = [];
 
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('params');
+		$query->from('#__extensions');
+		$query->where($db->qn('element') . ' = ' . $db->q('redirectmenus'));
+		$element  = $db->setQuery($query)->loadObject();
+		$enableds = [];
+
+		if (!empty($element->params))
+		{
+			$params             = new Registry($element->params);
+			$subDomains_enabled = $params->get('subdomains', []);
+			foreach ($subDomains_enabled as $subDomains_enable)
+			{
+				$enableds[$subDomains_enable->subdomain] = (int) $subDomains_enable->enable;
+			}
+		}
+
 		foreach ($subDomains as $subDomain)
 		{
 			$domains[$subDomain->subdomain] = 1;
+
+			if (isset($enableds[$subDomain->subdomain]))
+			{
+				$domains[$subDomain->subdomain] = $enableds[$subDomain->subdomain];
+			}
+
 		}
 
-		$build = static function ($splitMap) use (&$output, &$build, $https, $subdomainDefault) {
+
+		$build = static function ($splitMap) use (&$output, &$build, $https, $subdomainDefault, $domains) {
 			$item       = $splitMap['s'];
 			$link       = '';
 			$subdomain  = '';
@@ -327,7 +351,6 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 				{
 					$subdomain = $linkSource[1];
 					unset($linkSource[1]);
-
 					if ($subdomainDefault->subdomain === $subdomain)
 					{
 						$subdomain = '';
