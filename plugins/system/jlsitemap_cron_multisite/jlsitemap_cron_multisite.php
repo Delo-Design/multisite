@@ -20,6 +20,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
+use Joomla\Registry\Registry;
+
+JLoader::register('ConfigHelper', JPATH_PLUGINS . '/system/multisiteswitch/helpers/ConfigHelper.php');
 
 class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 {
@@ -102,7 +105,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 			}
 		}
 
-		$error = '';
+		$error    = '';
 		$generate = true;
 
 		// Run generation
@@ -157,6 +160,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 			}
 
 			$this->splitUrlsForSubdomain($urls);
+
 			return $urls;
 		}
 		catch (Exception $e)
@@ -167,44 +171,112 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 	protected function splitUrlsForSubdomain(&$urls)
 	{
-		$maps = [];
-		$includes = $urls->includes;
+		$maps       = [];
+		$includes   = $urls->includes;
+		$subDomains = ConfigHelper::get('subdomains', []);
+		$domains    = [];
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('params');
+		$query->from('#__extensions');
+		$query->where($db->qn('element') . ' = ' . $db->q('redirectmenus'));
+		$element  = $db->setQuery($query)->loadObject();
+		$enableds = [];
+
+		if (!empty($element->params))
+		{
+			$params             = new Registry($element->params);
+			$subDomains_enabled = $params->get('subdomains', []);
+			foreach ($subDomains_enabled as $subDomains_enable)
+			{
+				$enableds[$subDomains_enable->subdomain] = (int) $subDomains_enable->enable;
+			}
+		}
+
+		foreach ($subDomains as $subDomain)
+		{
+			$domains[$subDomain->subdomain] = 1;
+
+			if(isset($enableds[$subDomain->subdomain]))
+			{
+				$domains[$subDomain->subdomain] = $enableds[$subDomain->subdomain];
+			}
+
+		}
+
 
 		foreach ($includes as $url)
 		{
 			$locSplits = explode('/', $url->get('link'));
 			unset($locSplits[0]);
-
 			$mapIterator = &$maps;
-			foreach ($locSplits as $locSplit)
+
+			if (isset($domains[$locSplits[1]]))
 			{
-
-				if(empty($locSplit))
+				foreach ($locSplits as $locSplit)
 				{
-					continue;
-				}
 
-				if(!isset($mapIterator[$locSplit]))
-				{
-					$mapIterator[$locSplit] = [
-						's' => $url,
-						'i' => []
-					];
-				}
+					if (empty($locSplit))
+					{
+						continue;
+					}
 
-				$mapIterator = &$mapIterator[$locSplit]['i'];
+					if (!isset($mapIterator[$locSplit]))
+					{
+						$mapIterator[$locSplit] = [
+							's' => $url,
+							'i' => []
+						];
+					}
+
+					$mapIterator = &$mapIterator[$locSplit]['i'];
+				}
 			}
+			else
+			{
+				foreach ($domains as $domain => $enabled)
+				{
+					if ($enabled)
+					{
+						continue;
+					}
+
+					array_unshift($locSplits, $domain);
+					foreach ($locSplits as $locSplit)
+					{
+
+						if (empty($locSplit))
+						{
+							continue;
+						}
+
+						if (!isset($mapIterator[$locSplit]))
+						{
+							$mapIterator[$locSplit] = [
+								's' => $url,
+								'i' => []
+							];
+						}
+
+						$mapIterator = &$mapIterator[$locSplit]['i'];
+					}
+				}
+			}
+
+
 		}
 
+
 		$sitemapSource = JPATH_ROOT . DIRECTORY_SEPARATOR . 'sitemap.xml';
-		if(file_exists($sitemapSource))
+		if (file_exists($sitemapSource))
 		{
 			File::delete($sitemapSource);
 		}
 
 		$sitemapFolder = JPATH_ROOT . DIRECTORY_SEPARATOR . 'sitemaps';
 
-		if(!file_exists($sitemapFolder))
+		if (!file_exists($sitemapFolder))
 		{
 			Folder::create($sitemapFolder);
 		}
@@ -213,9 +285,9 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		foreach ($maps as $domain => $map)
 		{
 			$sitemapFile = $sitemapFolder . DIRECTORY_SEPARATOR . $domain . '.xml';
-			$rows = $this->buildMap($map);
+			$rows        = $this->buildMap($map);
 
-			if(file_exists($sitemapFile))
+			if (file_exists($sitemapFile))
 			{
 				File::delete($sitemapFile);
 			}
@@ -230,42 +302,53 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 	{
 		JLoader::register('plgSystemMultisiteswitchHelper', JPATH_PLUGINS . '/system/multisiteswitch/helper.php');
 
-		$config = Factory::getConfig();
-		$https = (int)$config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
+		$config           = Factory::getConfig();
+		$https            = (int) $config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
 		$subdomainDefault = plgSystemMultisiteswitchHelper::getSubdomainDefault();
-		$output = [];
+		$subDomains       = ConfigHelper::get('subdomains', []);
+		$output           = [];
+		$domains          = [];
+
+		foreach ($subDomains as $subDomain)
+		{
+			$domains[$subDomain->subdomain] = 1;
+		}
+
 		$build = static function ($splitMap) use (&$output, &$build, $https, $subdomainDefault) {
-			$item = $splitMap['s'];
-			$link = '';
-			$subdomain = '';
+			$item       = $splitMap['s'];
+			$link       = '';
+			$subdomain  = '';
 			$linkSource = explode('/', $item->get('link', ''));
 			$serverName = $_SERVER['SERVER_NAME'];
 
-			if(isset($linkSource[1]))
+			if (isset($linkSource[1]))
 			{
-				$subdomain = $linkSource[1];
-				unset($linkSource[1]);
-			}
+				if (isset($domains[$linkSource[1]]))
+				{
+					$subdomain = $linkSource[1];
+					unset($linkSource[1]);
 
+					if ($subdomainDefault->subdomain === $subdomain)
+					{
+						$subdomain = '';
+					}
+					else
+					{
+						$subdomain  .= '.';
+						$serverName = str_replace('www.', '', $serverName);
+					}
 
-			if($subdomainDefault->subdomain === $subdomain)
-			{
-				$subdomain = '';
-			}
-			else
-			{
-				$subdomain .= '.';
-				$serverName = str_replace('www.', '', $serverName);
+				}
 			}
 
 			$link = implode('/', $linkSource);
-			$loc = $https . $subdomain . $serverName . $link;
+			$loc  = $https . $subdomain . $serverName . $link;
 			$item->set('link', $link);
 			$item->set('loc', $loc);
 
 			$output[] = $item;
 
-			if(isset($splitMap['i']))
+			if (isset($splitMap['i']))
 			{
 				foreach ($splitMap['i'] as $split)
 				{
@@ -276,6 +359,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 		};
 
 		$build($map);
+
 		return $output;
 	}
 
@@ -284,9 +368,9 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 	 *
 	 * @param   array  $rows  Include urls array
 	 *
-	 * @throws  Exception
-	 *
 	 * @return string
+	 *
+	 * @throws  Exception
 	 *
 	 * @since 1.1.0
 	 */
