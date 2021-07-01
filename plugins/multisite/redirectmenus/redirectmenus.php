@@ -205,8 +205,7 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 					array_shift($domainSplit);
 				}
 
-				array_shift($split);
-				array_shift($split);
+				array_splice($split, 0, 2);
 
 				$this->app->redirect(
 					$https . $subdomain_for_redirect . '.' . implode('.', $domainSplit) . '/' . implode('/', $split),
