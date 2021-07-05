@@ -103,7 +103,7 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 
 		foreach ($subDomains as $subDomain)
 		{
-			$uri->setPath(str_replace('/' . $subDomain->subdomain, '', $uri->getPath()));
+			$uri->setPath(str_replace('index.php/' . $subDomain->subdomain, 'index.php', $uri->getPath()));
 		}
 
 	}
