@@ -53,10 +53,32 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 	public function onMultisiteAfterInit(&$subDomain, &$defaultMenu, &$defaultMenuItem, &$activeItem, &$sourceURI)
 	{
 
-		if (strpos($sourceURI, '/component') === 0)
+		$nomultisite = $this->app->getInt('nomultisite', 0);
+
+		if($nomultisite)
 		{
 			return;
 		}
+
+		$exclusions = [
+			'/component'
+		];
+
+		$exclusion_params = $this->params->get('exclusion', []);
+
+		foreach ($exclusion_params as $exclusion_param)
+		{
+			$exclusions[] = str_replace('//', '', '/' . $exclusion_param->url);
+		}
+
+		foreach ($exclusions as $exclusion)
+		{
+			if (strpos($sourceURI, $exclusion) === 0)
+			{
+				return;
+			}
+		}
+
 
 		$subDomains = $this->params->get('subdomains', []);
 

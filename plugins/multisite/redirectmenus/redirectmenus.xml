@@ -7,7 +7,7 @@
     <authorUrl>https://delo-design.ru</authorUrl>
     <copyright>Copyright © 2020 Delo Design. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.2</version>
+    <version>1.3</version>
     <description>PLG_REDIRECTMENUS_XML_DESCRIPTION</description>
 
     <scriptfile>script.php</scriptfile>
@@ -56,6 +56,21 @@
                             <option value="1">JYES</option>
                             <option value="0">JNO</option>
                         </field>
+                    </form>
+                </field>
+                <field
+                        name="exclusion"
+                        type="subform"
+                        label="PLG_REDIRECTMENUS_CONFIG_EXCLUSION_LABEL"
+                        multiple="true"
+                        buttons=""
+                >
+                    <form>
+                        <field
+                                name="url"
+                                type="text"
+                                label="PLG_REDIRECTMENUS_CONFIG_EXCLUSION_URL_LABEL"
+                        />
                     </form>
                 </field>
             </fieldset>
