@@ -281,7 +281,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 				continue;
 			}
 
-			$body = preg_replace_callback("#(\/?\[s\])?(https?:\/\/)?(" . $domain . ")?(\/?[a-zA-Z0-9\-\_\.]+?\/)?(" . $subDomain->subdomain . "\/?)(.)#i", static function ($matches) use ($subDomain, $domain) {
+			$body = preg_replace_callback("#(\/?\[s\])?(https?:\/\/)?(" . $domain . ")?(\/[a-zA-Z0-9\-\_]+?\/)?(" . $subDomain->subdomain . "\/?)(.)#i", static function ($matches) use ($subDomain, $domain) {
 
 				$sep = substr_count($matches[5], '/') ? '/' : '';
 
