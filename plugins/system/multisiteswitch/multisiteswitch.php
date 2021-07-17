@@ -281,9 +281,9 @@ class plgSystemMultisiteswitch extends CMSPlugin
 				continue;
 			}
 
-			$body = preg_replace_callback("#(\/?\[s\])?(https?:\/\/)?(" . $domain . "\/?)?(" . $subDomain->subdomain . "\/?)(.)#i", static function ($matches) use ($subDomain, $domain) {
+			$body = preg_replace_callback("#(\/?\[s\])?(https?:\/\/)?(" . $domain . ")?(\/?[a-zA-Z0-9\-\_\.]+?\/)?(" . $subDomain->subdomain . "\/?)(.)#i", static function ($matches) use ($subDomain, $domain) {
 
-				$sep = substr_count($matches[4], '/') ? '/' : '';
+				$sep = substr_count($matches[5], '/') ? '/' : '';
 
 				$matches[1] = str_replace('/', '', $matches[1]);
 
@@ -296,6 +296,11 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 				$check = empty($matches[3]) || strpos($matches[3], $domain) !== false;
 
+				if(!empty($matches[4]) && $matches[4] !== $domain . '/')
+				{
+					$check = false;
+				}
+
 				if ($check)
 				{
 					if ((int) $subDomain->default)
@@ -307,14 +312,14 @@ class plgSystemMultisiteswitch extends CMSPlugin
 						$dic = ['/', '"', '?'];
 					}
 
-					if (in_array($matches[5], $dic) || $sep === '/')
+					if (in_array($matches[6], $dic) || $sep === '/')
 					{
-						$matches[4] = '';
+						$matches[5] = '';
 					}
 				}
 
 
-				$link = str_replace('//', '/', $matches[3] . $matches[4] . $matches[5]);
+				$link = str_replace('//', '/', $matches[3] . $matches[4] . $matches[5] . $matches[6]);
 
 				return $matches[2] . $link;
 
