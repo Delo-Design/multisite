@@ -20,22 +20,9 @@
 
 	<config>
 		<fields name="params" addfieldpath="/plugins/multisite/redirectmenus/fields">
+
 			<fieldset
-					name="advanced">
-
-				<field
-						name="layout"
-						type="modulelayout"
-						label="JFIELD_ALT_LAYOUT_LABEL"
-						description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-				/>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
+					name="basic">
 				<field
 						name="subdomains"
 						type="listsubdomains"
@@ -66,6 +53,23 @@
 						</field>
 					</form>
 				</field>
+			</fieldset>
+
+			<fieldset
+					name="advanced">
+
+				<field
+						name="layout"
+						type="modulelayout"
+						label="JFIELD_ALT_LAYOUT_LABEL"
+						description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
 			</fieldset>
 		</fields>
