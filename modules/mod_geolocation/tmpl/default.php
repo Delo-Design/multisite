@@ -18,7 +18,7 @@ $active          = ModGeolocationHelper::getActive();
 $domain          = ModGeolocationHelper::getDomain();
 $config          = Factory::getConfig();
 $https           = (int) $config->get('force_ssl', 0) === 2 ? 'https://' : 'http://';
-$list_subdomains = $params->get('listsubdomains', []);
+$list_subdomains = $params->get('subdomains', []);
 $list_enables    = [];
 foreach ($list_subdomains as $list_subdomain)
 {
@@ -27,7 +27,7 @@ foreach ($list_subdomains as $list_subdomain)
 
 if (
 	isset($list_enables[$active->subdomain]) &&
-	$list_enables[$active->subdomain])
+	!$list_enables[$active->subdomain])
 {
 	return;
 }
@@ -88,7 +88,7 @@ if (
 					<?php
 					if (
 						isset($list_enables[$item->subdomain]) &&
-						$list_enables[$item->subdomain]
+						!$list_enables[$item->subdomain]
 					)
 					{
 						continue;
