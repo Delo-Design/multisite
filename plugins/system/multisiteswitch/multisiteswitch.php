@@ -210,6 +210,25 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	}
 
 
+	public function onRadicalMartRedirectPrepare(&$redirect, &$current)
+	{
+		$admin = $this->app->isClient('administrator');
+
+		if ($admin)
+		{
+			return false;
+		}
+
+		$subDomains = $this->params->get('subdomains', []);
+
+		foreach ($subDomains as $subDomain)
+		{
+			$current = str_replace('/' . $subDomain->subdomain, '', $current);
+		}
+
+	}
+
+
 	public function onAfterRoute()
 	{
 		$admin = $this->app->isClient('administrator');
