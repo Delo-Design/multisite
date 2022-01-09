@@ -26,6 +26,16 @@ JLoader::register('ConfigHelper', JPATH_PLUGINS . '/system/multisiteswitch/helpe
 
 class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 {
+
+	/**
+	 * Application object
+	 *
+	 * @var    CMSApplication
+	 * @since  1.0.0
+	 */
+	protected $app;
+
+
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
@@ -34,6 +44,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 	 * @since 0.0.2
 	 */
 	protected $autoloadLanguage = true;
+
 
 	/**
 	 * Method to add cron js
@@ -107,6 +118,7 @@ class PlgSystemJLSitemap_Cron_Multisite extends CMSPlugin
 
 		$error    = '';
 		$generate = true;
+		$this->app->set('nomultisite', 1);
 
 		// Run generation
 		if (!$error && $generate && $urls = $this->generate())

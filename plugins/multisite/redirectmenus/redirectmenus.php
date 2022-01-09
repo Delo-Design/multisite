@@ -53,7 +53,7 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 	public function onMultisiteAfterInit(&$subDomain, &$defaultMenu, &$defaultMenuItem, &$activeItem, &$sourceURI)
 	{
 
-		$nomultisite = $this->app->input->getInt('nomultisite', 0);
+		$nomultisite = $this->app->get('nomultisite', 0);
 
 		if($nomultisite)
 		{
@@ -121,6 +121,13 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 			return false;
 		}
 
+		$nomultisite = $this->app->get('nomultisite', 0);
+
+		if($nomultisite)
+		{
+			return;
+		}
+
 		$subDomains = ConfigHelper::get('subdomains', []);
 
 		foreach ($subDomains as $subDomain)
@@ -136,6 +143,13 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 		$admin = $this->app->isClient('administrator');
 		//$customizer = !empty($this->app->input->get('customizer'));
 		$customizer = false;
+
+		$nomultisite = $this->app->get('nomultisite', 0);
+
+		if($nomultisite)
+		{
+			return;
+		}
 
 		if ($admin || $customizer)
 		{
