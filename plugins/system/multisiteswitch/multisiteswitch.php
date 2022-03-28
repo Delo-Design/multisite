@@ -99,9 +99,8 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	{
 		$app         = $this->app;
 		$admin       = $app->isClient('administrator');
-		$nomultisite = $this->app->get('nomultisite', 0);
 
-		if ($admin || $nomultisite)
+		if ($admin)
 		{
 			return false;
 		}

@@ -53,9 +53,10 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 	public function onMultisiteAfterInit(&$subDomain, &$defaultMenu, &$defaultMenuItem, &$activeItem, &$sourceURI)
 	{
 
-		$nomultisite = $this->app->get('nomultisite', 0);
+		$nomultisite       = $this->app->get('nomultisite', 0);
+		$nomultisite_input = $this->app->input->get('nomultisite', 0);
 
-		if($nomultisite)
+		if ($nomultisite || $nomultisite_input)
 		{
 			return;
 		}
@@ -123,7 +124,7 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 
 		$nomultisite = $this->app->get('nomultisite', 0);
 
-		if($nomultisite)
+		if ($nomultisite)
 		{
 			return;
 		}
@@ -146,7 +147,7 @@ class plgMultisiteRedirectmenus extends CMSPlugin
 
 		$nomultisite = $this->app->get('nomultisite', 0);
 
-		if($nomultisite)
+		if ($nomultisite)
 		{
 			return;
 		}
