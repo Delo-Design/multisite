@@ -97,10 +97,11 @@ class plgSystemMultisiteswitch extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		$app   = $this->app;
-		$admin = $app->isClient('administrator');
+		$app         = $this->app;
+		$admin       = $app->isClient('administrator');
+		$nomultisite = $this->app->get('nomultisite', 0);
 
-		if ($admin)
+		if ($admin || $nomultisite)
 		{
 			return false;
 		}
@@ -315,7 +316,7 @@ class plgSystemMultisiteswitch extends CMSPlugin
 
 				$check = empty($matches[3]) || strpos($matches[3], $domain) !== false;
 
-				if(!empty($matches[4]) && $matches[4] !== $domain . '/')
+				if (!empty($matches[4]) && $matches[4] !== $domain . '/')
 				{
 					$check = false;
 				}
