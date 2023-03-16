@@ -7,3 +7,4 @@
 
 <img width="977" alt="изображение" src="https://user-images.githubusercontent.com/3103677/225538224-58965b7e-a5c4-40d5-8720-7860d609f027.png">
 
+пример рабочего сайта https://spb.region-zoloto.ru/
